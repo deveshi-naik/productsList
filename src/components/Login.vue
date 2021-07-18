@@ -19,7 +19,7 @@
                   label="Password"
                   hint="At least 8 characters"
                 ></v-text-field>
-                <v-btn class="mr-4" @click="onSubmit">
+                <v-btn class="mr-4 success" @click="onSubmit">
                   submit
                 </v-btn>
                 <v-btn @click="onClear">
