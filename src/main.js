@@ -3,18 +3,19 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import vuetify from 'vuetify'
+import Vuetify from 'vuetify'
 import VueEvents from 'vue-events'
 
 Vue.config.productionTip = false
+
+Vue.use(VueEvents)
+Vue.use(Vuetify)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  vuetify,
+  vuetify : new Vuetify(),
   components: { App },
   template: '<App/>'
 })
-
-Vue.use(VueEvents)
