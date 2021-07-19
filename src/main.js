@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import VueEvents from 'vue-events'
+import apiService from "../src/services";
 
 Vue.config.productionTip = false
 
 Vue.use(VueEvents)
 Vue.use(Vuetify)
+
+Vue.prototype.$api = apiService;
 
 /* eslint-disable no-new */
 new Vue({
