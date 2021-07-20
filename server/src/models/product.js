@@ -7,7 +7,7 @@ const productSchema = new Schema({
   category: { type: mongoose.Schema.ObjectId, ref: 'Category' },
   image: { type: String },
   price: { type: Number },
-  discount: { default: 0 },
+  discount: { type: Number, default: 0 },
   netPrice: { type: Number },
   description: { type: String },
 },

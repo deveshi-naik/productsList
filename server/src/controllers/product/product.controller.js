@@ -52,8 +52,6 @@ export const update = async (req, res) => {
 
     const productImage = req.file;
 
-    console.log('id=>>>', id);
-    console.log('category=>>>', category);
     const productExists = await Product.findById(id);
     if (!productExists) {
       return errorResponse(req, res, 'Product does not exists with given product id!', 400);

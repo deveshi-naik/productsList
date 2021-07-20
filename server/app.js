@@ -30,7 +30,4 @@ app.use(express.static(`${__dirname}/public`));
 
 app.use(errorHandler);
 
-const dbUrl = process.env.DB_URL;
-console.log(`Trying to connect to mongodb ${dbUrl}`);
-
 module.exports = app;

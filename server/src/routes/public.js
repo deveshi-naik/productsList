@@ -6,10 +6,6 @@ import * as userValidator from '../controllers/user/user.validator';
 
 const router = express.Router();
 
-//= ===============================
-// Public routes
-//= ===============================
-
 router.post(
   '/login',
   validate(userValidator.login),
