@@ -12,9 +12,9 @@ apiClient.defaults.headers = config;
 
 export const setAuthToken = async (token) => {
   if (token) {
-    apiClient.defaults.headers["token"] = token;
+    apiClient.defaults.headers["x-token"] = token;
   } else {
-    delete apiClient.defaults.headers["token"];
+    delete apiClient.defaults.headers["x-token"];
   }
 };
 

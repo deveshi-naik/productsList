@@ -1,14 +1,26 @@
 import { apiClient, composeUrl } from "./api";
 
-const getCartData = async (code, customerCode) => {
-    return await apiClient.post(
-      composeUrl('/products', {
-        // restaurant_code: code,
-        // customer_code: customerCode,
-      })
+const getProducts = async () => {
+    return await apiClient.get(
+      composeUrl('/api/product/list', {})
     );
-  };
+};
+
+const getProductByID = async (id) => {
+  return await apiClient.get(
+    composeUrl(`/api/product/get/${id}`, {})
+  );
+};
+
+const deleteProduct = async (payload) => {
+  return await apiClient.post(
+    composeUrl('/api/product/remove', {}), 
+    payload
+  );
+};
   
   export default {
-    getCartData,
+    getProducts,
+    getProductByID,
+    deleteProduct,
   };

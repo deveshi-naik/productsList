@@ -26,7 +26,7 @@ export default new Router({
       component: Signup
     },
     {
-      path: "/detail",
+      path: "/detail/:id",
       name: "productDetail",
       component: productDetail
     }

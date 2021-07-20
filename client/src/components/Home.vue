@@ -26,63 +26,27 @@
             Products
           </h2>
         </v-row>
-        <v-row class="justify-center mt-12">
-          <v-card outlined height="400" width="350" class="mx-3">
-            <v-card-title class="justify-center" @click="onCardClick">
-              product name
-            </v-card-title>
-            <v-img
-              height="250"
-              @click="onCardClick"
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-            ></v-img>
-            <v-card-text class="d-flex justify-center">
-              <v-btn class="mr-4 primary" @click="onEdit">
-                Edit
-              </v-btn>
-              <v-btn @click="onDelete" class="error">
-                Delete
-              </v-btn>
-            </v-card-text>
-          </v-card>
-
-          <v-card outlined height="400" width="350" class="mx-3">
-            <v-card-title class="justify-center" @click="onCardClick">
-              product name
-            </v-card-title>
-            <v-img
-              @click="onCardClick"
-              height="250"
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-            ></v-img>
-            <v-card-text class="d-flex justify-center">
-              <v-btn class="mr-4 primary" @click="onEdit">
-                Edit
-              </v-btn>
-              <v-btn @click="onDelete" class="error">
-                Delete
-              </v-btn>
-            </v-card-text>
-          </v-card>
-
-          <v-card outlined height="400" width="350" class="mx-3">
-            <v-card-title class="justify-center" @click="onCardClick">
-              product name
-            </v-card-title>
-            <v-img
-              height="250"
-              @click="onCardClick"
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-            ></v-img>
-            <v-card-text class="d-flex justify-center">
-              <v-btn class="mr-4 primary" @click="onEdit">
-                Edit
-              </v-btn>
-              <v-btn @click="onDelete" class="error">
-                Delete
-              </v-btn>
-            </v-card-text>
-          </v-card>
+        <v-row class="justify-center mt-12" v-if="Products && Products.length > 0">
+          
+            <v-card outlined height="400" width="350" class="mx-3" v-for="(product, index) in Products"  :key="index">
+              <v-card-title class="justify-center" @click="onCardClick(product._id)">
+                {{ product.name }}
+              </v-card-title>
+              <v-img
+                height="250"
+                @click="onCardClick(product._id)"
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              ></v-img>
+              <v-card-text class="d-flex justify-center">
+                <v-btn class="mr-4 primary" @click="onEdit(product)">
+                  Edit
+                </v-btn>
+                <v-btn @click="onDelete(product._id)" class="error">
+                  Delete
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          
         </v-row>
       </v-container>
     </v-app>
@@ -92,28 +56,55 @@
 
 <script>
 import AddModal from "./AddModal";
+import { setAuthToken } from "../services/api";
 
 export default {
   data() {
     return {
-      showAddModal: false
+      showAddModal: false,
+      Products: []
     };
   },
   components: {
     AddModal
   },
+  created() {
+    setAuthToken(localStorage.getItem('token'));
+    this.getProductsData()
+  },
   methods: {
+    getProductsData () {
+      this.$api.products
+      .getProducts()
+      .then((res) => {
+        this.Products = res.data.data
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
     onAdd() {
       this.$refs.addModal.openDialog();
     },
-    onEdit() {
+    onEdit(data) {
       this.$refs.addModal.openDialog();
     },
-    onDelete() {},
-    onCardClick() {
-      this.$router.push("/detail");
+    onDelete(id) {
+      let payload = { id }
+      this.$api.products
+        .deleteProduct(payload)
+        .then((res) => {
+          this.getProductsData()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    onCardClick(id) {
+      this.$router.push(`/detail/${id}`);
     },
     onSignOut() {
+      setAuthToken();
       localStorage.removeItem('token')
       this.$router.push("/login");
     }
