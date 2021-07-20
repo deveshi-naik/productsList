@@ -2,21 +2,29 @@
   <div>
     <v-app>
       <v-container>
-        <v-app-bar
-          color="deep-purple accent-4 justify-center"
-          height="80"
-          dense
-          dark
-        >
-          <v-toolbar-title class="mr-5">Welcome to Home Page</v-toolbar-title>
-          <v-btn class="justify-end " color="normal" outlined @click="onAdd">
-            Add
-          </v-btn>
+        <v-app-bar color="deep-purple accent-4" height="80" dense dark>
+          <v-row>
+            <v-col>
+              <v-btn color="normal" outlined @click="onAdd">
+                Add Product
+              </v-btn>
+            </v-col>
+            <v-col class="d-flex justify-center">
+              <v-toolbar-title>
+                Welcome to Home Page
+              </v-toolbar-title>
+            </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn color="normal" outlined @click="onSignOut">
+                Signout
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-app-bar>
         <v-row class="mt-6 justify-center">
-          <h3>
+          <h2>
             Products
-          </h3>
+          </h2>
         </v-row>
         <v-row class="justify-center mt-12">
           <v-card outlined height="400" width="350" class="mx-3">
@@ -104,6 +112,9 @@ export default {
     onDelete() {},
     onCardClick() {
       this.$router.push("/detail");
+    },
+    onSignOut() {
+      this.$router.push("/login");
     }
   }
 };

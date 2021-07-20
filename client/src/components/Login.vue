@@ -3,37 +3,38 @@
     <v-app>
       <v-container>
         <v-row class="justify-center mt-12">
-          <v-card outlined height="350" width="650">
+          <v-card outlined height="400" width="650">
             <v-card-title class="justify-center">
               Login
             </v-card-title>
             <v-card-text>
               <form>
-                <v-text-field 
-                  label="E-mail" 
-                  required 
-                  v-model="email"
-                ></v-text-field>
+                <v-text-field label="E-mail" v-model="email"></v-text-field>
+                <div class="error-text" v-if="$v.email.$error">
+                  Please enter your email.
+                </div>
                 <v-text-field
                   v-model="password"
+                  type="password"
                   label="Password"
                   hint="At least 8 characters"
                 ></v-text-field>
-                <v-btn class="mr-4 success" @click="onSubmit">
+                <div class="error-text" v-if="$v.password.$error">
+                  Please enter your password.
+                </div>
+                <v-btn class="mt-4 mr-4 success" @click="onSubmit">
                   submit
                 </v-btn>
-                <v-btn @click="onClear">
+                <v-btn @click="onClear" class="mt-4">
                   clear
                 </v-btn>
               </form>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                color="primary"
-                @click="onSignup"
-              >
+              Don't have an account?
+              <a class="ml-2 justify-center" @click="onSignup">
                 Sign up!
-              </v-btn>
+              </a>
             </v-card-actions>
           </v-card>
         </v-row>
@@ -43,26 +44,41 @@
 </template>
 
 <script>
+import { required, email } from "vuelidate/lib/validators";
+
 export default {
   data() {
     return {
       email: "",
-      password: "",
+      password: ""
     };
   },
-  methods : {
+  methods: {
     onSubmit() {
-      this.$router.push('/home')
+      this.$v.$touch();
+      if (this.$v.$error) {
+        return;
+      }
+
+      this.$router.push("/home");
     },
     onClear() {
-      this.email = ''
-      this.password = ''
+      this.email = "";
+      this.password = "";
     },
     onSignup() {
-      this.$router.push('/signup')
+      this.$router.push("/signup");
     }
+  },
+  validations: {
+    email: { required, email },
+    password: { required }
   }
 };
 </script>
 
-<style></style>
+<style>
+.error-text {
+  color: tomato;
+}
+</style>

@@ -12,35 +12,33 @@
         </v-card-title>
         <v-card-text>
           <form>
-            <v-text-field label="Name" required v-model="name"></v-text-field>
+            <v-text-field label="Name" v-model="name"></v-text-field>
+
+            <v-text-field label="Category" v-model="category"></v-text-field>
+
+            <v-file-input
+              placeholder="Pick an image"
+              prepend-icon=""
+              label="Image"
+            ></v-file-input>
 
             <v-text-field
-              label="Category"
-              required
-              v-model="category"
+              label="Price"
+              v-model="price"
+              type="number"
+              oninput="if(this.value < 0) this.value = 0;"
             ></v-text-field>
 
-            <v-text-field label="Image" required v-model="image"></v-text-field>
-
-            <v-text-field label="Price" required v-model="price"></v-text-field>
-
-            <v-text-field
-              label="Discount"
-              required
-              v-model="discount"
-            ></v-text-field>
+            <v-text-field label="Discount" v-model="discount"></v-text-field>
 
             <v-text-field
               label="Net Price"
-              required
               v-model="netPrice"
+              type="number"
+              oninput="if(this.value < 0) this.value = 0;"
             ></v-text-field>
 
-            <v-text-field
-              label="Description"
-              required
-              v-model="description"
-            ></v-text-field>
+            <v-textarea label="Description" v-model="description"></v-textarea>
 
             <v-btn class="mr-4 success" @click="onAdd">
               submit

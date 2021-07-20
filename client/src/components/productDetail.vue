@@ -11,7 +11,7 @@
           <v-row class="justify-center mt-12">
             <v-col>
               <v-img
-                height="250"
+                height="350"
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
               ></v-img>
             </v-col>
