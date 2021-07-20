@@ -60,7 +60,24 @@ export default {
         return;
       }
 
-      this.$router.push("/home");
+      let userData = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$api.user
+        .login(
+          userData
+        )
+        .then((res) => {
+          if (res.data.code === 200) {
+            localStorage.setItem('token', res.data.data.token)
+            this.$router.push("/home");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
     },
     onClear() {
       this.email = "";

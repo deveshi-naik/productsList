@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const apiClient = axios.create();
 
-export const apiEndPoint = `${process.env.VUE_APP_API_BASE_URL}`;
+export const apiEndPoint = `http://localhost:3000`;
 
 const config = {
   apikey: `${process.env.VUE_APP_API_KEY}`,

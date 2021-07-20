@@ -114,6 +114,7 @@ export default {
       this.$router.push("/detail");
     },
     onSignOut() {
+      localStorage.removeItem('token')
       this.$router.push("/login");
     }
   }

@@ -70,7 +70,25 @@ export default {
       if (this.$v.$error) {
         return;
       }
-      this.$router.push("/login");
+
+      let userData = {
+        email: this.email,
+        name: this.name,
+        password: this.password,
+      };
+      this.$api.user
+        .register(
+          userData
+        )
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.$router.push("/login");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
     },
     onClear() {
       this.name = "";
