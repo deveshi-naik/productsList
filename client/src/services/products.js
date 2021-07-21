@@ -22,6 +22,22 @@ const deleteProduct = async (payload) => {
   );
 };
 
+//product add
+const addProduct = async (payload) => {
+  return await apiClient.post(
+    composeUrl('/api/product/add', {}), 
+    payload
+  );
+};
+
+//product edit
+const editProduct = async (payload) => {
+  return await apiClient.post(
+    composeUrl('/api/product/update', {}), 
+    payload
+  );
+};
+
 //categories get
 const getCategories = async () => {
   return await apiClient.get(
@@ -34,4 +50,6 @@ const getCategories = async () => {
     getProductByID,
     deleteProduct,
     getCategories,
+    addProduct,
+    editProduct
   };

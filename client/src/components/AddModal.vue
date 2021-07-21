@@ -8,7 +8,7 @@
     >
       <v-card outlined>
         <v-card-title class="justify-center">
-          Add New Product
+          {{ modalType === "add" ? "Add New" : "Edit" }} Product
         </v-card-title>
         <v-card-text>
           <form>
@@ -23,11 +23,14 @@
               label="Category"
             ></v-select>
 
-            <v-file-input
-              placeholder="Pick an image"
-              prepend-icon=""
-              label="Image"
-            ></v-file-input>
+            Image
+            <input
+              type="file"
+              id="img"
+              accept="image/*"
+              @change="onFileChange"
+              multiple
+            />
 
             <v-text-field
               label="Price"
@@ -47,7 +50,7 @@
 
             <v-textarea label="Description" v-model="description"></v-textarea>
 
-            <v-btn class="mr-4 success" @click="onAdd">
+            <v-btn class="mr-4 success" @click="onSubmit">
               submit
             </v-btn>
 
@@ -74,32 +77,101 @@ export default {
       discount: "",
       netPrice: "",
       description: "",
-      Categories: []
+      Categories: [],
+      attachment: "",
+      productId: ""
     };
   },
-  created() {
-    this.getCategories()
+  watch: {
+    modalType: {
+      immediate: true,
+      handler(data) {
+        return data;
+      }
+    }
   },
+  props: ["modalType"],
   methods: {
     getCategories() {
       this.$api.products
         .getCategories()
-        .then((res) => {
-          this.Categories = res.data.data
+        .then(res => {
+          this.Categories = res.data.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
     closeDialog() {
+      this.onClear();
       this.displayFlag = false;
     },
-    openDialog() {
-      this.onClear();
+    openDialog(data) {
+      this.getCategories();
+      if (data) {
+        this.name = data.name;
+        this.image = data.image;
+        this.price = data.price;
+        this.category = data.category._id;
+        this.discount = data.discount;
+        this.netPrice = data.netPrice;
+        this.description = data.description;
+        this.productId = data._id;
+      }
       this.displayFlag = true;
     },
-    onAdd() {
-      console.log("on add");
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.image = e.target.files[0].name;
+      this.attachment = e.target.files[0];
+    },
+    onSubmit() {
+      let data = new FormData();
+      let formData = {
+        category: this.category,
+        price: this.price,
+        netPrice: this.netPrice,
+        description: this.description,
+        name: this.name,
+        image: this.image
+      };
+
+      data.append("file", this.attachment);
+      data.append("category", this.category);
+      data.append("price", this.price);
+      data.append("netPrice", this.netPrice);
+      data.append("description", this.description);
+      data.append("name", this.name);
+      data.append("image", this.image);
+
+      if (this.modalType === "add") {
+        this.$api.products
+          .addProduct(data)
+          .then(res => {
+            if (res.data.code === 200) {
+              this.$emit("getProducts");
+              this.closeDialog();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        data.append("id", this.productId);
+
+        this.$api.products
+          .editProduct(data)
+          .then(res => {
+            if (res.data.code === 200) {
+              this.$emit("getProducts");
+              this.closeDialog();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     onClear() {
       this.name = "";
@@ -109,6 +181,9 @@ export default {
       this.discount = "";
       this.netPrice = "";
       this.description = "";
+      this.Categories = [];
+      this.attachment = "";
+      this.productId = "";
     }
   }
 };
