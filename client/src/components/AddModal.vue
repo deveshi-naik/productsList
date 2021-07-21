@@ -14,7 +14,14 @@
           <form>
             <v-text-field label="Name" v-model="name"></v-text-field>
 
-            <v-text-field label="Category" v-model="category"></v-text-field>
+            <v-select
+              v-if="Categories && Categories.length > 0"
+              :items="Categories"
+              v-model="category"
+              item-text="name"
+              :item-value="'_id'"
+              label="Category"
+            ></v-select>
 
             <v-file-input
               placeholder="Pick an image"
@@ -66,10 +73,24 @@ export default {
       price: "",
       discount: "",
       netPrice: "",
-      description: ""
+      description: "",
+      Categories: []
     };
   },
+  created() {
+    this.getCategories()
+  },
   methods: {
+    getCategories() {
+      this.$api.products
+        .getCategories()
+        .then((res) => {
+          this.Categories = res.data.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     closeDialog() {
       this.displayFlag = false;
     },
