@@ -61,6 +61,9 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="validateToastr" :timeout="3000" right top>
+      Please fill up the form!
+    </v-snackbar>
   </div>
 </template>
 
@@ -69,6 +72,7 @@ export default {
   name: "Modal",
   data() {
     return {
+      validateToastr: false,
       displayFlag: false,
       name: "",
       category: "",
@@ -152,10 +156,12 @@ export default {
             if (res.data.code === 200) {
               this.$emit("getProducts");
               this.closeDialog();
+              this.validateToastr = false;
             }
           })
           .catch(error => {
             console.log(error);
+            this.validateToastr = true;
           });
       } else {
         data.append("id", this.productId);
