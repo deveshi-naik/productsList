@@ -4,12 +4,6 @@ export const apiClient = axios.create();
 
 export const apiEndPoint = `http://localhost:3000`;
 
-const config = {
-  apikey: `${process.env.VUE_APP_API_KEY}`,
-};
-
-apiClient.defaults.headers = config;
-
 export const setAuthToken = async (token) => {
   if (token) {
     apiClient.defaults.headers["x-token"] = token;

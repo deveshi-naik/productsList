@@ -13,7 +13,16 @@ export default new Router({
     {
       path: "/home",
       name: "Home",
-      component: Home
+      component: Home,
+      beforeEnter(to, from, next) {
+        if (localStorage.getItem("token")) {
+          next();
+        } else {
+          next({
+            path: `/login`,
+          });
+        }
+      }
     },
     {
       path: "/login",
@@ -28,7 +37,30 @@ export default new Router({
     {
       path: "/detail/:id",
       name: "productDetail",
-      component: productDetail
+      component: productDetail,
+      beforeEnter(to, from, next) {
+        if (localStorage.getItem("token")) {
+          next();
+        } else {
+          next({
+            path: `/login`,
+          });
+        }
+      }
+    },
+    {
+      path: "/",
+      beforeEnter(to, from, next) {
+        if (localStorage.getItem("token")) {
+          next({
+            path: `/home`,
+          });
+        } else {
+          next({
+            path: `/login`,
+          });
+        }
+      }
     }
   ]
 });
