@@ -3,26 +3,49 @@
     <v-app>
       <v-container>
         <v-row class="mt-6 justify-center" v-if="productData">
-          <h3>
+          <h2>
             Product Detail!
-          </h3>
+          </h2>
         </v-row>
         <v-card v-if="productData">
           <v-row class="justify-center mt-12">
             <v-col>
-              <v-img
-                height="350"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              ></v-img>
+              <v-img height="350" :src="getImgUrl(productData.image)"></v-img>
             </v-col>
             <v-col>
-              Product Details are here!!!!
-              Name: {{ productData.name }}
-              Discount: {{ productData.discount }}
-              Price: {{ productData.price }}
-              Net Price: {{ productData.netPrice }}
-              Description: {{ productData.description }}
-              Category Name: {{ productData.category.name }}
+              <div>
+                <h3 class="d-flex justify-center">
+                  {{ productData.name }}
+                </h3>
+                <p>
+                  Category Name:
+                  <span class="font-weight-bold">{{
+                    productData.category.name
+                  }}</span>
+                </p>
+                <p>
+                  Discount:
+                  <span class="font-weight-bold">{{
+                    productData.discount
+                  }}</span>
+                </p>
+                <p>
+                  Price:
+                  <span class="font-weight-bold">{{ productData.price }}</span>
+                </p>
+                <p>
+                  Net Price:
+                  <span class="font-weight-bold">{{
+                    productData.netPrice
+                  }}</span>
+                </p>
+                <p>
+                  Description:
+                  <span class="font-weight-bold">{{
+                    productData.description
+                  }}</span>
+                </p>
+              </div>
             </v-col>
           </v-row>
         </v-card>
@@ -35,24 +58,28 @@
 export default {
   data() {
     return {
-      productData: ''
-    }
+      productData: "",
+      baseURL: "http://localhost:3000"
+    };
   },
   methods: {
+    getImgUrl(pic) {
+      return this.baseURL + "/" + pic;
+    },
     getProductData() {
       this.$api.products
         .getProductByID(this.$route.params.id)
-        .then((res) => {
-          this.productData = res.data.data
+        .then(res => {
+          this.productData = res.data.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
   },
   created() {
-    this.getProductData()
-  },
+    this.getProductData();
+  }
 };
 </script>
 

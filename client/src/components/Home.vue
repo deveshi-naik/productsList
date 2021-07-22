@@ -47,7 +47,7 @@
             <v-img
               height="250"
               @click="onCardClick(product._id)"
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              :src="getImgUrl(product.image)"
             ></v-img>
             <v-card-text class="d-flex justify-center">
               <v-btn class="mr-4 primary" @click="onEdit(product)">
@@ -78,7 +78,8 @@ export default {
     return {
       showAddModal: false,
       Products: [],
-      modalType: ""
+      modalType: "",
+      baseURL: "http://localhost:3000"
     };
   },
   components: {
@@ -89,6 +90,9 @@ export default {
     this.getProductsData();
   },
   methods: {
+    getImgUrl(pic) {
+      return this.baseURL + "/" + pic;
+    },
     getProductsData() {
       this.$api.products
         .getProducts()
