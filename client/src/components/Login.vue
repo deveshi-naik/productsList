@@ -62,22 +62,19 @@ export default {
 
       let userData = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
       this.$api.user
-        .login(
-          userData
-        )
-        .then((res) => {
+        .login(userData)
+        .then(res => {
           if (res.data.code === 200) {
-            localStorage.setItem('token', res.data.data.token)
+            localStorage.setItem("token", res.data.data.token);
             this.$router.push("/home");
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-
     },
     onClear() {
       this.email = "";

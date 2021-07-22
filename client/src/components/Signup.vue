@@ -74,21 +74,18 @@ export default {
       let userData = {
         email: this.email,
         name: this.name,
-        password: this.password,
+        password: this.password
       };
       this.$api.user
-        .register(
-          userData
-        )
-        .then((res) => {
+        .register(userData)
+        .then(res => {
           if (res.data.code === 200) {
             this.$router.push("/login");
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-
     },
     onClear() {
       this.name = "";

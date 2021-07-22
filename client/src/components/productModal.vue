@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  name: "AddModal",
+  name: "Modal",
   data() {
     return {
       displayFlag: false,

@@ -61,29 +61,28 @@
         </v-row>
       </v-container>
     </v-app>
-    <AddModal
-      ref="addModal"
+    <productModal
+      ref="productModal"
       @getProducts="getProductsData"
       :modalType="modalType"
-    ></AddModal>
+    ></productModal>
   </div>
 </template>
 
 <script>
-import AddModal from "./AddModal";
+import productModal from "./productModal";
 import { setAuthToken } from "../services/api";
 
 export default {
   data() {
     return {
-      showAddModal: false,
       Products: [],
       modalType: "",
-      baseURL: "http://localhost:3000"
+      baseURL: process.env.VUE_APP_API_BASE_URL
     };
   },
   components: {
-    AddModal
+    productModal
   },
   created() {
     setAuthToken(localStorage.getItem("token"));
@@ -105,11 +104,11 @@ export default {
     },
     onAdd() {
       this.modalType = "add";
-      this.$refs.addModal.openDialog();
+      this.$refs.productModal.openDialog();
     },
     onEdit(data) {
       this.modalType = "edit";
-      this.$refs.addModal.openDialog(data);
+      this.$refs.productModal.openDialog(data);
     },
     onDelete(id) {
       let payload = { id };

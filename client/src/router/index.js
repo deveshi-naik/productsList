@@ -19,7 +19,7 @@ export default new Router({
           next();
         } else {
           next({
-            path: `/login`,
+            path: `/login`
           });
         }
       }
@@ -43,7 +43,7 @@ export default new Router({
           next();
         } else {
           next({
-            path: `/login`,
+            path: `/login`
           });
         }
       }
@@ -53,11 +53,11 @@ export default new Router({
       beforeEnter(to, from, next) {
         if (localStorage.getItem("token")) {
           next({
-            path: `/home`,
+            path: `/home`
           });
         } else {
           next({
-            path: `/login`,
+            path: `/login`
           });
         }
       }

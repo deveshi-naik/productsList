@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       productData: "",
-      baseURL: "http://localhost:3000"
+      baseURL: process.env.VUE_APP_API_BASE_URL
     };
   },
   methods: {
